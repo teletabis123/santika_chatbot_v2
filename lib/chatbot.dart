@@ -185,28 +185,18 @@ class ChatScreenState extends State<ChatScreen>{
 
           messageResult.add(response[2][0]["0"]);
           print(messageResult[0]);
-
-          //messageResult.add(detailMessage);
+          
           mResponse += messageResult[0] + "\n";
           for(int i=1; i<=ul; i++){
             messageResult.add(new List<String>());
-//            print("Current value of i: " + i.toString());
-//            print("Child in index $i: " +  response[1][i][i.toString()].toString());
 
             for(int j=0; j<=response[1][i][i.toString()]; j++){
-              //print(j);
               messageResult[i].add(response[2][i][i.toString()][j][j.toString()]);
 
               mResponse += (j>0? "- " : "") + messageResult[i][j] + ((j==response[1][i][i.toString()] && i==1) ? "\n\n" : "");
             }
             print(messageResult[i]);
           }
-
-//          for(int i=1; i<=ul; i++){
-//            for(int j=0; j<=response[1][i][i.toString()]; j++){
-//              print(messageResult[i][j]);
-//            }
-//          }
         }
 
         messageResponse = new ChatMessage(text: mResponse, who: 1,);
@@ -237,7 +227,6 @@ class ChatMessage extends StatelessWidget{
 
     return new Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0),
-      //width: MediaQuery.of(context).size.width*0.5,
       child: new Row(
         textDirection: who == 0 ? TextDirection.rtl : TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -270,7 +259,6 @@ void _saveToDB(int who, String message){
   var dbHelper = new DBHelper();
 
   dbHelper.saveChatLog(who, message, _makeTimestamp());
-
 }
 
 String _makeTimestamp(){
@@ -289,49 +277,3 @@ String _makeTimestamp(){
 
   return timestamp;
 }
-
-//Old Code to reformatting json
-//if(text.contains("ketersediaan") || text.contains("pengecekan")){
-//var resCek = json.decode(res.body);
-//mResponse = resCek["message"];
-//}
-//else{
-//response.add(resBody["ul"]); //index 0
-//response.add(resBody["il"]); //index 1
-//response.add(resBody["message"]);//index 2
-//response.add(resBody["header"]);
-//
-//int index = 0;
-//print(response[0] == null ? "No ul tag in json" : "This type is " + response[0].runtimeType.toString() + " with value of " + response[0].toString());
-//print(response[1] == null ? "No il tag in json" : "This type is " + response[1].runtimeType.toString() + ".");
-//print(response[1][0][index.toString()] == null ? "There is no \"0\" in tag il" : response[1][0]["0"]); //tag il "0"
-//print(response[2][0][index.toString()] != "" ? "There is no \"1\" in tag il" : response[1][1]["1"]); //tag il "1"
-//print(response[2].runtimeType.toString());
-//print(response[2][0][index.toString()] == "" ? "Index 0 kosong" : response[2][0]["0"]); //message "0"
-//
-//int indexMessageStart = response[1][0]["0"];
-//int indexMessageEnd = response[2][0]["0"] == "" ? response[1][1]["1"] : response[1][0]["0"]; //kalo message[0] berisi, dia jd sm ky il "0"
-//
-//print(indexMessageStart.toString());
-//print(indexMessageEnd.toString());
-//
-//if(indexMessageStart == indexMessageEnd){
-//mResponse = response[2][0]["0"];
-//_saveToDB(1, mResponse, DateTime.now());
-//}
-//else{
-//print(indexMessageStart.toString());
-//print(indexMessageEnd.toString());
-//mResponse += response[3] + "\n";
-//int i;
-//for(i = indexMessageStart; i<=indexMessageEnd; i++){
-//mResponse += " - " + response[2][1]["1"][i][i.toString()] + (i != indexMessageEnd ? "\n" : "");
-//}
-//_saveToDB(1, mResponse, DateTime.now());
-////mResponse = ""; //sementara
-//}
-//}
-//
-//messageResponse = new ChatMessage(text: mResponse, who: 1,);
-//
-//_message.insert(0, messageResponse);
