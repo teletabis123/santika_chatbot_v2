@@ -78,7 +78,7 @@ class DBHelper{
           'INSERT INTO ChatLog (who, message, time) VALUES($who, "$message", "$time");'
       );
     });
-    print("\nINSERT INTO ChatLog VALUES(\"$message\", \"$time\");");
+    //print("\nINSERT INTO ChatLog VALUES(\"$message\", \"$time\");");
     print("This chat is successfully added to DB");
   }
 
