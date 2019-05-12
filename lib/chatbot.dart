@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:santika_chatbot_v2/ChatLog.dart';
+import 'package:santika_chatbot_v2/aboutapp.dart';
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:santika_chatbot_v2/database.dart';
+import 'package:santika_chatbot_v2/main.dart';
 
 void main() => runApp(new ChatBot());
 
@@ -12,9 +14,15 @@ class ChatBot extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        //'/' : (context) => SplashScreenPage(),
+        '/homepage' : (context) => MyApp(),
+        '/chat' : (context) => ChatBot(),
+        '/about' : (context) => AboutApp(),
+      },
       title: 'My Santika Helper',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.brown,
       ),
       home: new ChatScreen(),
     );
@@ -37,23 +45,56 @@ class ChatScreenState extends State<ChatScreen>{
 
   final List<ChatMessage> _message = <ChatMessage>[];
 
-  var dbAdapeter = new DBHelper();
-
   bool initialized = false;
 
+  void _botStartChat() async {
+    String url = "https://aiml-server-heroku.herokuapp.com/hai";
+    var res = await http.get(Uri.encodeFull(url), headers: {"Authentication": "Bearer329e2f262b9e03c89379284ca9735332fb151575"});
+    setState(() {
+      var resBody = json.decode(res.body);
+      int ul = resBody['ul'];
+      ChatMessage messageResponse;
+      List<int> li, footer;
+      List<String> message = new List<String>();
+      List<dynamic> messageChild = new List<dynamic>();
+      List<String> messageFooter = new List<String>();
+      li = new List<int>();
+      footer = new List<int>();
+      String mResponse = "";
+
+      for(int i=0; i<=ul; i++){
+        li.add(resBody['li'][i][i.toString()]);
+        footer.add(resBody['footer'][i][i.toString()]);
+      }
+
+      for(int i=0; i<=li[ul]; i++){
+        message.add(resBody["message"][ul][ul.toString()][i][i.toString()]);
+        mResponse += (i>0 && i<=li[ul]? "  - " : "") + message[i] + (i != li[ul] ? "\n" : "");
+      }
+
+      messageFooter.add(resBody["m_footer"][ul][ul.toString()]);
+      if(messageFooter[0] != ""){
+        mResponse += "\n\n" + messageFooter[0];
+      }
+
+      messageResponse = new ChatMessage(text: mResponse, who: 1,);
+      _saveToDB(1, mResponse);
+      _message.insert(0, messageResponse);
+    });
+  }
 
   void _getInitData() async{
+    _botStartChat();
     List<ChatLog> chatLog = await fetchChatLogFromDB();
     print("Print in State: " + chatLog.length.toString());
     int length = chatLog.length;
     print(chatLog);
     if(length > 0){
       for(int i=0; i<length; i++){
-        ChatMessage message = new ChatMessage(text: chatLog[i].message, who: i%2==0? 0 : 1,);
+        ChatMessage message = new ChatMessage(text: chatLog[i].message, who: chatLog[i].who,);
         setState(() {
           _message.insert(0, message);
         });
-
       }
     }
   }
@@ -61,7 +102,7 @@ class ChatScreenState extends State<ChatScreen>{
   Future<bool> _backButtonPressed(){
     print(initialized ? "Initialized" : "Not initialized");
     initialized = false;
-    Navigator.pop(context, true);
+    //Navigator.pop(context, true);
   }
 
   @override
@@ -73,7 +114,7 @@ class ChatScreenState extends State<ChatScreen>{
     }
 
     return WillPopScope(
-      onWillPop: _backButtonPressed,
+      //onWillPop: _baqckButtonPressed,
       child: new Scaffold(
         appBar: new AppBar(title: new Text("My Santika Chatroom"),),
         body: new Column(
@@ -135,11 +176,10 @@ class ChatScreenState extends State<ChatScreen>{
 
     ChatMessage messageResponse;
 
-    //String url = "https://staging-santika.oval.id/room-types/?hotel=98";
-    //String url = "https://aiml-server-heroku.herokuapp.com/ketersediaan kamar deluxe pada tanggal 06-06-2019";
     String url = "https://aiml-server-heroku.herokuapp.com/";
 
     String mResponse = "";
+    String mResFooter = "";
     Future getAndParse(String param) async {
       List<dynamic> response = new List();
       url += param;
@@ -156,62 +196,89 @@ class ChatScreenState extends State<ChatScreen>{
 
         print("Reformatting json result");
 
-        response.add(resBody['ul']); //index 0 -> ul
-        int ul = response[0];
 
-        response.add(new List<dynamic>()); //index 1 -> il
-        for(int i=0; i<=response[0]; i++){ //isi dari il
-          response[1].add(resBody['il'][i]);
-          print("il[$i]: " + response[1][i][i.toString()].toString());
-          //access -> respose[1][i][i.toString()]
+        int ul = resBody['ul'];
+        print("ul = " + ul.toString());
+
+        List<int> li, footer;
+        List<String> message = new List<String>();
+        List<dynamic> messageChild = new List<dynamic>();
+        List<String> messageFooter = new List<String>();
+        li = new List<int>();
+        footer = new List<int>();
+
+        print("getting ul value: " + ul.toString());
+
+        for(int i=0; i<=ul; i++){
+          li.add(resBody['li'][i][i.toString()]);
+          footer.add(resBody['footer'][i][i.toString()]);
         }
-        response.add(resBody['message']); //index 2 -> message
-        print(response[2]);
 
         if(ul == 0){
-          print("Message: " + response[2][0]["0"]);
-          mResponse = response[2][0]["0"];
+          print(resBody["message"]);
+          message.add(resBody["message"][ul][ul.toString()]);
+          messageFooter.add(resBody["m_footer"][ul][ul.toString()]);
+          print("Message: " + message[ul]);
+
+          mResponse += message[ul];
+
+          messageResponse = new ChatMessage(text: mResponse, who: 1,);
+          _saveToDB(1, mResponse);
+          _message.insert(0, messageResponse);
+
+          if(messageFooter[ul] != ""){
+            mResFooter += "\n" + messageFooter[ul];
+          }
         }
         else if(ul == 1){
-          List<String> messageResult = new List();
-          for(int i=0; i<=response[1][1]['1']; i++){
-            messageResult.add(response[2][ul][ul.toString()][i][i.toString()]);
-            mResponse += (i>0? "- " : "") + messageResult[i] + "\n";
-            print("Message result $i: " + messageResult[i]);
+          print("ul = 1");
+          print("li[0] = " + li[0].toString());
+          for(int i=0; i<=li[ul]; i++){
+            message.add(resBody["message"][ul][ul.toString()][i][i.toString()]);
+            mResponse += (i>0 && i<=li[ul]? "  - " : "") + message[i] + (i != li[ul] ? "\n" : "");
           }
+
+          messageFooter.add(resBody["m_footer"][ul][ul.toString()]);
+          if(messageFooter[0] != ""){
+            mResponse += "\n\n" + messageFooter[0];
+          }
+
+          messageResponse = new ChatMessage(text: mResponse, who: 1,);
+          _saveToDB(1, mResponse);
+          _message.insert(0, messageResponse);
         }
-        else if(ul == 2){
-          List<dynamic> messageResult = new List();
+        else if(ul > 1){
+          print(li[0]);
+          int idx = 0;
+          for(int i=0; i<=ul; i++){
+            if(li[i] == 1) mResponse += resBody["message"][i][i.toString()] + "\n\n";
+            else{
+              //Main
+              print(idx);
+              messageChild.add(message);
+              for(int j=0; j<=li[i]; j++){
+                messageChild[idx].add(resBody["message"][i][i.toString()][j][j.toString()]);
+                print("resBody[\"message\"][$i][\"$i\"][$j][\"$j\"]: " + resBody["message"][i][i.toString()][j][j.toString()]);
+                mResponse += (j>0 && j<=li[i]? "  - " : "") + resBody["message"][i][i.toString()][j][j.toString()] + (i==ul && j==li[i]? "" : "\n") + (i!=ul && j==li[i]? "" : "");
+              }
 
-          messageResult.add(response[2][0]["0"]);
-          print(messageResult[0]);
-
-          //messageResult.add(detailMessage);
-          mResponse += messageResult[0] + "\n";
-          for(int i=1; i<=ul; i++){
-            messageResult.add(new List<String>());
-//            print("Current value of i: " + i.toString());
-//            print("Child in index $i: " +  response[1][i][i.toString()].toString());
-
-            for(int j=0; j<=response[1][i][i.toString()]; j++){
-              //print(j);
-              messageResult[i].add(response[2][i][i.toString()][j][j.toString()]);
-
-              mResponse += (j>0? "- " : "") + messageResult[i][j] + ((j==response[1][i][i.toString()] && i==1) ? "\n\n" : "");
+              //Footer
+              messageFooter.add(resBody["m_footer"][i][i.toString()]);
+              if(messageFooter[idx] != "") mResponse += (i!=ul? "" : "\n") + "\n" + messageFooter[idx] + (i!=ul? "\n\n" : "");
+              else{
+                mResponse += (i==ul ? "" : "\n");
+              }
+              idx++;
             }
-            print(messageResult[i]);
+
           }
 
-//          for(int i=1; i<=ul; i++){
-//            for(int j=0; j<=response[1][i][i.toString()]; j++){
-//              print(messageResult[i][j]);
-//            }
-//          }
+          messageResponse = new ChatMessage(text: mResponse, who: 1,);
+          _saveToDB(1, mResponse);
+          _message.insert(0, messageResponse);
         }
 
-        messageResponse = new ChatMessage(text: mResponse, who: 1,);
-        _saveToDB(1, mResponse);
-        _message.insert(0, messageResponse);
+        //print(mResponse);
       });
     }
 
@@ -233,7 +300,7 @@ class ChatMessage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final c_width = MediaQuery.of(context).size.width*0.6;
+    final c_width = MediaQuery.of(context).size.width * (who == 0 ? 0.6 : 0.9);
 
     return new Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0),
