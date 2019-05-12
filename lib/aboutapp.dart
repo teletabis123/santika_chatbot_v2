@@ -17,9 +17,9 @@ class AboutApp extends StatelessWidget {
       title: 'My Santika',
 
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.orange,
       ),
-      home: MyHomePage(title: 'Cara Memulai Chatbot'),
+      home: MyHomePage(title: 'Tentang Aplikasi'),
     );
   }
 }
@@ -48,15 +48,24 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        //crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            padding: new EdgeInsets.all(10.0),
+            margin: new EdgeInsets.all(10.0),
+            child: Image(image: AssetImage('assets/logo_umn.png')),
+          ),
+          Container(
+            //padding: new EdgeInsets.all(10.0),
+            margin: new EdgeInsets.all(20.0),
+            child: Text(
               'Aplikasi Chatbot ini dibuat bekerja sama dengan UMN.',
+              textAlign: TextAlign.center,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

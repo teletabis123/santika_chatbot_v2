@@ -22,7 +22,7 @@ class ChatBot extends StatelessWidget{
       },
       title: 'My Santika Helper',
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.orange,
       ),
       home: new ChatScreen(),
     );
@@ -113,9 +113,14 @@ class ChatScreenState extends State<ChatScreen>{
       initialized = true;
     }
 
+    final width = MediaQuery.of(context).size.width;
+
+
+
     return WillPopScope(
       //onWillPop: _baqckButtonPressed,
       child: new Scaffold(
+        backgroundColor: Colors.white,
         appBar: new AppBar(title: new Text("My Santika Chatroom"),),
         body: new Column(
           children: <Widget>[
@@ -127,6 +132,72 @@ class ChatScreenState extends State<ChatScreen>{
                 itemCount: _message.length,
               ),
             ),
+            new Container(
+              width: width,
+              padding: new EdgeInsets.all(10.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: new Center(
+                  child: new Row(
+                    textDirection: TextDirection.ltr,
+                    children: <Widget>[
+                      new GestureDetector(
+                        onTap: () => _handleSubmitted("Santika Premiere Slipi"),
+                        child: new Container(
+                          //width: width/3,
+                          padding: new EdgeInsets.all(10.0),
+                          margin: new EdgeInsets.only(right: 10.0),
+                          decoration: new BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: new BorderRadius.circular(50.0),
+                          ),
+                          child: new Text("Tentang Santika Premiere Slipi", overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                      new GestureDetector(
+                        onTap: () => _handleSubmitted("Kamar hotel"),
+                        child: new Container(
+                          //width: width/3,
+                          padding: new EdgeInsets.all(10.0),
+                          margin: new EdgeInsets.only(right: 10.0),
+                          decoration: new BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: new BorderRadius.circular(50.0),
+                          ),
+                          child: new Text("Kamar Hotel", overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                      new GestureDetector(
+                        onTap: () => _handleSubmitted("Ruang Rapat"),
+                        child: new Container(
+                          //width: width/3,
+                          padding: new EdgeInsets.all(10.0),
+                          margin: new EdgeInsets.only(right: 10.0),
+                          decoration: new BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: new BorderRadius.circular(50.0),
+                          ),
+                          child: new Text("Ruang Rapat", overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                      new GestureDetector(
+                        onTap: () => _handleSubmitted("Cek Kamar"),
+                        child: new Container(
+                          //width: width/3,
+                          padding: new EdgeInsets.all(10.0),
+                          margin: new EdgeInsets.only(right: 10.0),
+                          decoration: new BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: new BorderRadius.circular(50.0),
+                          ),
+                          child: new Text("Cek Kamar", overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ),
             new Divider(height: 1.0,),
             new Container(
               decoration: new BoxDecoration(
@@ -140,6 +211,8 @@ class ChatScreenState extends State<ChatScreen>{
     );
   }
 
+  bool _isComposing = false;
+
   Widget _buildTextComposer(){
     return new IconTheme(
       data: new IconThemeData(color: Theme.of(context).accentColor),
@@ -150,6 +223,11 @@ class ChatScreenState extends State<ChatScreen>{
             new Flexible(
               child: new TextField(
                 controller: _textController,
+                onChanged: (String text){
+                  setState(() {
+                    _isComposing = text.length > 0;
+                  });
+                },
                 onSubmitted: _handleSubmitted,
                 decoration: new InputDecoration.collapsed(hintText: "Send a message"),
               ),
@@ -158,7 +236,7 @@ class ChatScreenState extends State<ChatScreen>{
               //margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: new IconButton(
                 icon: new Icon(Icons.send),
-                onPressed: () => _handleSubmitted(_textController.text),
+                onPressed: _isComposing ? () => _handleSubmitted(_textController.text) : null,
                 // What to do after send icon is pressed
               ),
             ),
@@ -313,7 +391,7 @@ class ChatMessage extends StatelessWidget{
             width: c_width,
             padding: new EdgeInsets.all(10.0),
             decoration: new BoxDecoration(
-              color: who == 1 ? Colors.white : Colors.grey,
+              color: who == 1 ? Colors.deepOrangeAccent : Colors.orange,
               borderRadius: new BorderRadius.all(Radius.circular(5.0)),
             ),
             child: new Column(

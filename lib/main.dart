@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       },
       title: 'My Santika',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.deepOrange,
       ),
       home: MyHomePage(title: 'Some page in My Santika'),
     );
@@ -37,32 +37,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: Text(widget.title),
-//      ),
-//      body: Center(
-//        child: Column(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Text(
-//              'Content in page',
-//            ),
-//          ],
-//        ),
-//      ),
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBot())),
-//        tooltip: 'Increment',
-//        child: Icon(Icons.add),
-//      ), // This trailing comma makes auto-formatting nicer for build methods.
-//    );
-//  }
-
-
-
   @override
   Widget build(BuildContext context) {
     var assetImage = AssetImage('assets/santika_2_2.png');
@@ -74,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
           fit: StackFit.expand,
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(color: Colors.brown),
+              decoration: BoxDecoration(color: Colors.orange),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -100,35 +74,44 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontWeight: FontWeight.bold),
                         ),
                         Padding(padding: new EdgeInsets.only(top: 50.0),),
-                        RaisedButton(
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.all(Radius.circular(5.0))
+                        ButtonTheme(
+                          minWidth: 130.0,
+                          child: RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.all(
+                                    Radius.circular(5.0))
+                            ),
+                            child: new Text(
+                                "Chat Bot",
+                                style: TextStyle(
+                                    color: Colors.white
+                                )
+                            ),
+                            color: Colors.deepOrangeAccent,
+                            //onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBot())),
+                            onPressed: () =>
+                                Navigator.pushNamed(context, '/chat'),
                           ),
-                          child: new Text(
-                            "Chat Bot",
-                            style: TextStyle(
-                              color: Colors.white
-                            )
-                          ),
-                          color: Color.fromARGB(255, 100, 88, 85),
-                          //onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBot())),
-                          onPressed: () => Navigator.pushNamed(context, '/chat'),
                         ),
-                        RaisedButton(
-                          onPressed: (){
-                            print("About App button pressed");
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => AboutApp()));
-                            Navigator.pushNamed(context, '/about');
-                          },
-                          color: Color.fromARGB(255, 100, 88, 85),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.all(Radius.circular(5.0))
+                        ButtonTheme(
+                          minWidth: 130.0,
+                          child: RaisedButton(
+                            onPressed: () {
+                              print("About App button pressed");
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => AboutApp()));
+                              Navigator.pushNamed(context, '/about');
+                            },
+                            color: Colors.deepOrangeAccent,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.all(
+                                    Radius.circular(5.0))
+                            ),
+                            child: new Text(
+                                "About This App",
+                                style: TextStyle(
+                                    color: Colors.white
+                                )),
                           ),
-                          child: new Text(
-                              "About This App",
-                              style: TextStyle(
-                                  color: Colors.white
-                              )),
                         ),
                       ],
                     ),
@@ -141,9 +124,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-//  @override
-//  void initState() {
-//    Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreenPage()));
-//  }
 }
