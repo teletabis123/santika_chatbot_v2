@@ -38,20 +38,22 @@ class _SplashScreenState extends State<SplashScreen> {
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
-        oneSec, (Timer timer) => setState((){
-          print("timernya disini"+_start.toString());
-          if (_start < 1){
-            timer.cancel();
+      oneSec, (Timer timer) => setState((){
+        print("timernya disini"+_start.toString());
+        if (_start < 1){
+          timer.cancel();
 
-            Navigator.pushReplacementNamed(context, '/homepage');
-            //Navigator.popAndPushNamed(context, "/homepage");
-            //Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-            //Navigator.of(context).pop(true);
-          } else {
-            print("Secconds: " + _start.toString());
-            _start = _start - 1;
-          }
-        }));
+          Navigator.pushReplacementNamed(context, '/homepage');
+          //Navigator.popAndPushNamed(context, "/homepage");
+          //Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+          //Navigator.of(context).pop(true);
+        } else {
+          print("Secconds: " + _start.toString());
+          _start = _start - 1;
+        }
+      }
+      )
+    );
   }
 
   @override
@@ -72,58 +74,61 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return new Scaffold(
       body: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(color: Colors.brown),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          backgroundColor: Color.fromARGB(255, 65, 57, 55),
-                          radius: 50.0,
-                          child: image,
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 10.0),
-                        ),
-                        Text(
-                          "Ashka Bot",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(color: Colors.greenAccent),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      CircularProgressIndicator(),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                      CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 65, 57, 55),
+                        radius: 50.0,
+                        child: image,
                       ),
-                      Text("MySantika App Chatbot",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold)),
+                      Padding(padding: EdgeInsets.only(top: 10.0),
+                      ),
+                      Text(
+                        "Ashka Bot",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold
+                        ),
+                      )
                     ],
                   ),
-                )
-              ],
-            )
-          ]
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                    ),
+                    Text("MySantika App Chatbot",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        ]
       ),
     );
   }

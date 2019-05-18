@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:santika_chatbot_v2/ChatLog.dart';
 import 'package:santika_chatbot_v2/aboutapp.dart';
@@ -22,7 +23,9 @@ class ChatBot extends StatelessWidget{
       },
       title: 'My Santika Helper',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        buttonColor: Color.fromARGB(127, 211, 211, 211), //lightgray
+        backgroundColor: Color.fromARGB(255, 184, 50, 39), //
+        accentColor: Color.fromARGB(255, 0, 0, 0),
       ),
       home: new ChatScreen(),
     );
@@ -105,6 +108,31 @@ class ChatScreenState extends State<ChatScreen>{
     //Navigator.pop(context, true);
   }
 
+  ScrollController _hideSuggestion;
+  var _isVisible;
+
+  @override
+  void initState() {
+    super.initState();
+    _isVisible = true;
+    _hideSuggestion = new ScrollController();
+    _hideSuggestion.addListener((){
+      if(_hideSuggestion.position.userScrollDirection == ScrollDirection.reverse){
+        setState((){
+          _isVisible = true;
+          print("**** ${_isVisible} up");
+        });
+      }
+      if(_hideSuggestion.position.userScrollDirection == ScrollDirection.forward){
+        setState((){
+          _isVisible = false;
+          print("**** ${_isVisible} down");
+
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -115,82 +143,129 @@ class ChatScreenState extends State<ChatScreen>{
 
     final width = MediaQuery.of(context).size.width;
 
-
-
     return WillPopScope(
       //onWillPop: _baqckButtonPressed,
       child: new Scaffold(
         backgroundColor: Colors.white,
-        appBar: new AppBar(title: new Text("My Santika Chatroom"),),
+        appBar: new AppBar(
+          title: new Text("My Santika Chatroom"),
+          backgroundColor: Theme.of(context).accentColor,
+        ),
         body: new Column(
           children: <Widget>[
             new Flexible(
               child: new ListView.builder(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0),
                 reverse: true,
                 itemBuilder: (_, int index) => _message[index],
                 itemCount: _message.length,
               ),
             ),
+            //new Divider(height: 1.0,),
             new Container(
               width: width,
-              padding: new EdgeInsets.all(10.0),
+              margin: new EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: SingleChildScrollView(
+                //controller: _hideSuggestion,
                 scrollDirection: Axis.horizontal,
                 child: new Center(
                   child: new Row(
                     textDirection: TextDirection.ltr,
                     children: <Widget>[
                       new GestureDetector(
-                        onTap: () => _handleSubmitted("Santika Premiere Slipi"),
+                        onTap: () => _textController.text = "Tentang Santika Premiere Slipi",
                         child: new Container(
                           //width: width/3,
-                          padding: new EdgeInsets.all(10.0),
-                          margin: new EdgeInsets.only(right: 10.0),
+                          padding: new EdgeInsets.all(8.0),
+                          margin: new EdgeInsets.only(right: 8.0, left: 8.0),
                           decoration: new BoxDecoration(
-                            color: Colors.orange,
+                            color: Colors.white,
                             borderRadius: new BorderRadius.circular(50.0),
+                            border: new Border.all(
+                              color: Theme.of(context).backgroundColor,
+                              width: 1.0,
+                              style: BorderStyle.solid
+                            )
                           ),
-                          child: new Text("Tentang Santika Premiere Slipi", overflow: TextOverflow.ellipsis,),
+                          child: new Text(
+                            "Tentang Santika Premiere Slipi",
+                            overflow: TextOverflow.ellipsis,
+                            style: new TextStyle(
+                              color: Theme.of(context).backgroundColor,
+                            ),
+                          ),
                         ),
                       ),
                       new GestureDetector(
-                        onTap: () => _handleSubmitted("Kamar hotel"),
+                        onTap: () => _textController.text = "Kamar hotel",
                         child: new Container(
                           //width: width/3,
-                          padding: new EdgeInsets.all(10.0),
-                          margin: new EdgeInsets.only(right: 10.0),
+                          padding: new EdgeInsets.all(8.0),
+                          margin: new EdgeInsets.only(right: 8.0),
                           decoration: new BoxDecoration(
-                            color: Colors.orange,
+                            color: Colors.white,
                             borderRadius: new BorderRadius.circular(50.0),
+                            border: new Border.all(
+                                color: Theme.of(context).backgroundColor,
+                                width: 1.0,
+                                style: BorderStyle.solid
+                            )
                           ),
-                          child: new Text("Kamar Hotel", overflow: TextOverflow.ellipsis,),
+                          child: new Text(
+                            "Kamar Hotel",
+                            overflow: TextOverflow.ellipsis,
+                            style: new TextStyle(
+                              color: Theme.of(context).backgroundColor,
+                            ),
+                          ),
                         ),
                       ),
                       new GestureDetector(
-                        onTap: () => _handleSubmitted("Ruang Rapat"),
+                        onTap: () => _textController.text = "Ruang rapat",
                         child: new Container(
                           //width: width/3,
-                          padding: new EdgeInsets.all(10.0),
-                          margin: new EdgeInsets.only(right: 10.0),
+                          padding: new EdgeInsets.all(8.0),
+                          margin: new EdgeInsets.only(right: 8.0),
                           decoration: new BoxDecoration(
-                            color: Colors.orange,
+                            color: Colors.white,
                             borderRadius: new BorderRadius.circular(50.0),
+                            border: new Border.all(
+                                color: Theme.of(context).backgroundColor,
+                                width: 1.0,
+                                style: BorderStyle.solid
+                            )
                           ),
-                          child: new Text("Ruang Rapat", overflow: TextOverflow.ellipsis,),
+                          child: new Text(
+                            "Ruang Rapat",
+                            overflow: TextOverflow.ellipsis,
+                            style: new TextStyle(
+                              color: Theme.of(context).backgroundColor,
+                            ),
+                          ),
                         ),
                       ),
                       new GestureDetector(
-                        onTap: () => _handleSubmitted("Cek Kamar"),
+                        onTap: () => _textController.text = "Cek kamar",
                         child: new Container(
                           //width: width/3,
-                          padding: new EdgeInsets.all(10.0),
-                          margin: new EdgeInsets.only(right: 10.0),
+                          padding: new EdgeInsets.all(8.0),
+                          margin: new EdgeInsets.only(right: 8.0),
                           decoration: new BoxDecoration(
-                            color: Colors.orange,
+                            color: Colors.white,
                             borderRadius: new BorderRadius.circular(50.0),
+                            border: new Border.all(
+                                color: Theme.of(context).backgroundColor,
+                                width: 1.0,
+                                style: BorderStyle.solid
+                            )
                           ),
-                          child: new Text("Cek Kamar", overflow: TextOverflow.ellipsis,),
+                          child: new Text(
+                            "Cek Kamar",
+                            overflow: TextOverflow.ellipsis,
+                            style: new TextStyle(
+                              color: Theme.of(context).backgroundColor,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -229,12 +304,19 @@ class ChatScreenState extends State<ChatScreen>{
                   });
                 },
                 onSubmitted: _handleSubmitted,
-                decoration: new InputDecoration.collapsed(hintText: "Send a message"),
+                decoration: new InputDecoration.collapsed(
+                  hintText: "Send a message",
+                  hintStyle: new TextStyle(
+                    color: Colors.black,
+                  )
+                ),
               ),
             ),
             new Container(
               //margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: new IconButton(
+                color: Colors.black,
+                disabledColor: Colors.black,
                 icon: new Icon(Icons.send),
                 onPressed: _isComposing ? () => _handleSubmitted(_textController.text) : null,
                 // What to do after send icon is pressed
@@ -391,8 +473,8 @@ class ChatMessage extends StatelessWidget{
             width: c_width,
             padding: new EdgeInsets.all(10.0),
             decoration: new BoxDecoration(
-              color: who == 1 ? Colors.deepOrangeAccent : Colors.orange,
-              borderRadius: new BorderRadius.all(Radius.circular(5.0)),
+              color: who == 1 ? Theme.of(context).buttonColor : Theme.of(context).backgroundColor,
+              borderRadius: new BorderRadius.all(Radius.circular(10.0)),
             ),
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -400,7 +482,13 @@ class ChatMessage extends StatelessWidget{
                 //new Text(who == 1 ? _botName : _name, style: Theme.of(context).textTheme.subhead),
                 new Container(
                   margin: const EdgeInsets.only(top: 5.0),
-                  child: new Text(text, style: TextStyle(fontSize: 15.0),),
+                  child: new Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: who == 0? Colors.white : Colors.black,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -434,49 +522,3 @@ String _makeTimestamp(){
 
   return timestamp;
 }
-
-//Old Code to reformatting json
-//if(text.contains("ketersediaan") || text.contains("pengecekan")){
-//var resCek = json.decode(res.body);
-//mResponse = resCek["message"];
-//}
-//else{
-//response.add(resBody["ul"]); //index 0
-//response.add(resBody["il"]); //index 1
-//response.add(resBody["message"]);//index 2
-//response.add(resBody["header"]);
-//
-//int index = 0;
-//print(response[0] == null ? "No ul tag in json" : "This type is " + response[0].runtimeType.toString() + " with value of " + response[0].toString());
-//print(response[1] == null ? "No il tag in json" : "This type is " + response[1].runtimeType.toString() + ".");
-//print(response[1][0][index.toString()] == null ? "There is no \"0\" in tag il" : response[1][0]["0"]); //tag il "0"
-//print(response[2][0][index.toString()] != "" ? "There is no \"1\" in tag il" : response[1][1]["1"]); //tag il "1"
-//print(response[2].runtimeType.toString());
-//print(response[2][0][index.toString()] == "" ? "Index 0 kosong" : response[2][0]["0"]); //message "0"
-//
-//int indexMessageStart = response[1][0]["0"];
-//int indexMessageEnd = response[2][0]["0"] == "" ? response[1][1]["1"] : response[1][0]["0"]; //kalo message[0] berisi, dia jd sm ky il "0"
-//
-//print(indexMessageStart.toString());
-//print(indexMessageEnd.toString());
-//
-//if(indexMessageStart == indexMessageEnd){
-//mResponse = response[2][0]["0"];
-//_saveToDB(1, mResponse, DateTime.now());
-//}
-//else{
-//print(indexMessageStart.toString());
-//print(indexMessageEnd.toString());
-//mResponse += response[3] + "\n";
-//int i;
-//for(i = indexMessageStart; i<=indexMessageEnd; i++){
-//mResponse += " - " + response[2][1]["1"][i][i.toString()] + (i != indexMessageEnd ? "\n" : "");
-//}
-//_saveToDB(1, mResponse, DateTime.now());
-////mResponse = ""; //sementara
-//}
-//}
-//
-//messageResponse = new ChatMessage(text: mResponse, who: 1,);
-//
-//_message.insert(0, messageResponse);
