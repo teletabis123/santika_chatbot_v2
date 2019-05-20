@@ -17,7 +17,7 @@ class AboutApp extends StatelessWidget {
       title: 'My Santika',
 
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        //primarySwatch: Colors.orange,
       ),
       home: MyHomePage(title: 'Tentang Aplikasi'),
     );
@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Colors.black,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

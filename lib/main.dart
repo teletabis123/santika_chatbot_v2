@@ -3,7 +3,7 @@ import 'package:santika_chatbot_v2/aboutapp.dart';
 import 'package:santika_chatbot_v2/chatbot.dart';
 import 'package:santika_chatbot_v2/splashScreen.dart';
 
-//void main() => runApp(MyApp());
+void main() => runApp(SplashScreenPage());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

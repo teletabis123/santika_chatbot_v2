@@ -133,6 +133,8 @@ class ChatScreenState extends State<ChatScreen>{
     });
   }
 
+  bool _isComposing = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -173,7 +175,12 @@ class ChatScreenState extends State<ChatScreen>{
                     textDirection: TextDirection.ltr,
                     children: <Widget>[
                       new GestureDetector(
-                        onTap: () => _textController.text = "Tentang Santika Premiere Slipi",
+                        onTap: (){
+                          _textController.text = "Tentang Santika Premiere Slipi";
+                          setState(() {
+                            _isComposing = true;
+                          });
+                        },
                         child: new Container(
                           //width: width/3,
                           padding: new EdgeInsets.all(8.0),
@@ -197,7 +204,12 @@ class ChatScreenState extends State<ChatScreen>{
                         ),
                       ),
                       new GestureDetector(
-                        onTap: () => _textController.text = "Kamar hotel",
+                        onTap: () {
+                          _textController.text = "Kamar hotel";
+                          setState(() {
+                            _isComposing = true;
+                          });
+                        },
                         child: new Container(
                           //width: width/3,
                           padding: new EdgeInsets.all(8.0),
@@ -221,7 +233,12 @@ class ChatScreenState extends State<ChatScreen>{
                         ),
                       ),
                       new GestureDetector(
-                        onTap: () => _textController.text = "Ruang rapat",
+                        onTap: () {
+                          _textController.text = "Ruang rapat";
+                          setState(() {
+                            _isComposing = true;
+                          });
+                        },
                         child: new Container(
                           //width: width/3,
                           padding: new EdgeInsets.all(8.0),
@@ -245,7 +262,12 @@ class ChatScreenState extends State<ChatScreen>{
                         ),
                       ),
                       new GestureDetector(
-                        onTap: () => _textController.text = "Cek kamar",
+                        onTap: (){
+                          _textController.text = "Cek kamar";
+                          setState(() {
+                            _isComposing = true;
+                          });
+                        },
                         child: new Container(
                           //width: width/3,
                           padding: new EdgeInsets.all(8.0),
@@ -285,8 +307,6 @@ class ChatScreenState extends State<ChatScreen>{
       ),
     );
   }
-
-  bool _isComposing = false;
 
   Widget _buildTextComposer(){
     return new IconTheme(

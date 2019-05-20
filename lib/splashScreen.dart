@@ -77,7 +77,9 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.greenAccent),
+            decoration: BoxDecoration(
+              color: Colors.grey
+            ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -112,7 +114,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(
+
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),
                     ),
