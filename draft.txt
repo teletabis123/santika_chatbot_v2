@@ -1,0 +1,14 @@
+santika premiere slipi -> penjelasan tentang yg di slipi bkn keseluruhan, + lokasi -> google maps + contact us ->  dll
+info lain -> ditaro dibawah, jangan ikutan di - kyk yg lain, kesannya kyk jenis kamar
+@^ -> jangan sampe jebol 
+info lain -> tulisnya informasi lain mengenai bla bla bla, jd ga cuma sekedar info lain doang
+connecting room -> ketersediaan kamar pake bintang, rada turun kebawah
+
+availability room:
+kamarnya mau apa, tanggalnya (cth frequentnya: berapa malem brp kamar) - james's fire
+
+masukin timeout 10s -> tolong cek kembali koneksi anda
+
+batesin yang udah lewat gaboleh bisa diliat lagi, karena exception handling dari kita, bukan dari api
+
+botnya ngomong duluan, querynya tentuin sendiri dari flutter
