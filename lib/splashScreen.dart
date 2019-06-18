@@ -100,7 +100,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Padding(padding: EdgeInsets.only(top: 10.0),
                       ),
                       Text(
-                        "Ashka Bot",
+                        "Berscha Bot",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24.0,

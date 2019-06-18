@@ -176,7 +176,7 @@ class ChatScreenState extends State<ChatScreen>{
                     children: <Widget>[
                       new GestureDetector(
                         onTap: (){
-                          _textController.text = "Tentang Santika Premiere Slipi";
+                          _textController.text = "Saya ingin bertanya tentang Santika Premiere Slipi";
                           setState(() {
                             _isComposing = true;
                           });
@@ -205,7 +205,7 @@ class ChatScreenState extends State<ChatScreen>{
                       ),
                       new GestureDetector(
                         onTap: () {
-                          _textController.text = "Kamar hotel";
+                          _textController.text = "Saya ingin bertanya tentang Kamar hotel";
                           setState(() {
                             _isComposing = true;
                           });
@@ -234,7 +234,7 @@ class ChatScreenState extends State<ChatScreen>{
                       ),
                       new GestureDetector(
                         onTap: () {
-                          _textController.text = "Ruang rapat";
+                          _textController.text = "Saya ingin bertanya tentang Ruang rapat";
                           setState(() {
                             _isComposing = true;
                           });
@@ -263,7 +263,7 @@ class ChatScreenState extends State<ChatScreen>{
                       ),
                       new GestureDetector(
                         onTap: (){
-                          _textController.text = "Cek kamar";
+                          _textController.text = "Saya ingin melakukan Cek kamar";
                           setState(() {
                             _isComposing = true;
                           });

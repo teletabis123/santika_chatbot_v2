@@ -24,9 +24,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   ];
 
   final List<String> text1 = [
-    "App for hotel booking, Q&A",
+    "an App for hotel booking, Q&A",
     "Find your best deals here",
-    "Ashka Chatbot"
+    "Berscha Chatbot"
   ];
 
   final IndexController controller = IndexController();
@@ -66,7 +66,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 child: new Text(
                                   text0[info.index],
                                   style: new TextStyle(
-                                      color: Colors.blueGrey,
+                                      color: Colors.grey[700],
                                       fontSize: 34.0,
                                       fontFamily: 'Montserrat',
                                       fontWeight: FontWeight.bold),
@@ -95,7 +95,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                   text1[info.index],
                                   textAlign: TextAlign.center,
                                   style: new TextStyle(
-                                      color: Colors.blueGrey,
+                                      color: Colors.grey[700],
                                       fontSize: 28.0,
                                       fontFamily: 'Montserrat',
                                       fontWeight: FontWeight.bold),

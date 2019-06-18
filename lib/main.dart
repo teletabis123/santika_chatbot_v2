@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:santika_chatbot_v2/HowToUse.dart';
 import 'package:santika_chatbot_v2/aboutapp.dart';
 import 'package:santika_chatbot_v2/chatbot.dart';
 import 'package:santika_chatbot_v2/splashScreen.dart';
 
 void main() => runApp(SplashScreenPage());
+
+//class MainApp extends StatefulWidget {
+//  final String title;
+//  MainApp({this.title});
+//  @override
+//  MyApp createState() => MyApp();
+//}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -15,6 +23,7 @@ class MyApp extends StatelessWidget {
         //'/' : (context) => SplashScreenPage(),
         '/homepage' : (context) => MyApp(),
         '/chat' : (context) => ChatBot(),
+        '/howto' : (context) => HowToUse(),
         '/about' : (context) => AboutApp(),
       },
       title: 'My Santika',
@@ -24,7 +33,7 @@ class MyApp extends StatelessWidget {
 //        buttonColor: Color.fromARGB(255, 127, 255, 212), //aquamarine
         buttonColor: Color.fromARGB(255, 184, 50, 39), //
       ),
-      home: MyHomePage(title: 'Some page in My Santika'),
+      home: MyHomePage(title: 'Ashka Bot'),
     );
   }
 }
@@ -67,10 +76,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(padding: EdgeInsets.only(top: 10.0),
                       ),
                       Text(
-                        "Ashka Bot",
+                        "Berscha Bot",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18.0,
+                          fontSize: 24.0,
                           fontWeight: FontWeight.bold
                         ),
                       ),
@@ -93,6 +102,26 @@ class _MyHomePageState extends State<MyHomePage> {
                           //onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBot())),
                           onPressed: () =>
                             Navigator.pushNamed(context, '/chat'),
+                        ),
+                      ), // ini how to use
+                      ButtonTheme(
+                        minWidth: 130.0,
+                        child: RaisedButton(
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.all(
+                                  Radius.circular(50.0)
+                              )
+                          ),
+                          child: new Text(
+                              "How To Use App",
+                              style: TextStyle(
+                                  color: Colors.white
+                              )
+                          ),
+                          color: Theme.of(context).buttonColor,
+                          //onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBot())),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/howto'),
                         ),
                       ),
                       ButtonTheme(
